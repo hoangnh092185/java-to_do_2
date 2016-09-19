@@ -33,12 +33,34 @@ public class Task {
      return con.createQuery(sql).executeAndFetch(Task.class);
    }
  }
-
   public int getId() {
     return id;
   }
-  public static Task find(int id) {
-  // return instances.get(id - 1);
+  // public static Task find(int id) {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "SELECT * FROM tasks where id=:id";
+  //     Task task = con.createQuery(sql)
+  //       .addParameter("id", id)
+  //       .executeAndFetchFirst(Task.class);
+  //     return task;
+  //   }
+  // }
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO tasks (description) VALUES (:description)";
+      con.createQuery(sql)
+        .addParameter("description", this.description)
+        .executeUpdate();
+    }
+  }
+  @Override //This code of line will override the comparing object issue "squeker" == "squeker"
+  public boolean equals(Object otherTask) {
+    if (!(otherTask instanceof Task)) {
+      return false;
+    } else {
+      Task newTask = (Task) otherTask;
+      return this.getDescription().equals(newTask.getDescription());
+    }
   }
 
 }
