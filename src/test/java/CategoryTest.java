@@ -6,7 +6,7 @@ public class CategoryTest {
   @Before
   public void setUp() {
     DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/to_do_test", null, null);
-  }
+  }//CREATE DATABASE to_do_test WITH TEMPLATE to_do;
 
   @After
   public void tearDown(){
@@ -38,11 +38,17 @@ public class CategoryTest {
     assertEquals(true, Category.all().get(0).equals(firstCategory));
     assertEquals(true, Category.all().get(1).equals(secondCategory));
   }
-  
+  @Test
+  public void save_assignsIdToObject() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    Category savedCategory = Category.all().get(0);
+    assertEquals(myCategory.getId(), savedCategory.getId());
+  }
 }
 
 
-  //<----Old test only with junit and sparks programs---->
+  //<----Old test only with Junit and sparks functions---->
  //  @Test
  //  public void category_instantiatesCorrectly_true() {
  //    Category testCategory = new Category("Home");
