@@ -1,3 +1,4 @@
+import org.sql2o.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.time.LocalDateTime;
@@ -5,6 +6,17 @@ import java.time.LocalDateTime;
 
 public class TaskTest {
 
+  @Before
+  public void setUp(){
+    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/to_do_test", null, null);
+  }
+  @After
+  public void tearDown(){
+    try(Connection con=DB.sql2o.open()){
+      String sql = "DELETE FROM tasks *;";
+      con.createQuery(sql).executeUpdate();
+    }
+  }
   @Test
   public void Task_instantiatesCorrectly_true() {
     Task myTask = new Task("Mow the lawn");
@@ -25,7 +37,6 @@ public class TaskTest {
     Task myTask = new Task("Mow the lawn");
     assertEquals(LocalDateTime.now().getDayOfWeek(), myTask.getCreatedAt().getDayOfWeek());
   }
-
   @Test
   public void all_returnsAllInstancesOfTask_true() {
     Task firstTask = new Task("Mow the lawn");
@@ -33,7 +44,6 @@ public class TaskTest {
     assertEquals(true, Task.all().contains(firstTask));
     assertEquals(true, Task.all().contains(secondTask));
   }
-
   @Test
   public void clear_emptiesAllTasksFromArrayList_0() {
     Task myTask = new Task("Mow the lawn");
@@ -55,4 +65,5 @@ public class TaskTest {
     Task thirdTask = new Task("Laundry");
     assertEquals(Task.find(secondTask.getId()), secondTask);
   }
+
 }
