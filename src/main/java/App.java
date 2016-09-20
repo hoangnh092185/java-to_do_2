@@ -65,28 +65,29 @@
 //       return new ModelAndView(model, layout);
 //     }, new VelocityTemplateEngine());
 //
-//     post("/categories", (request, response) -> {
-//       Map<String, Object> model = new HashMap<String, Object>();
-//       String name = request.queryParams("name");
-//       Category newCategory = new Category(name);
-//       model.put("template", "templates/category-success.vtl");
-//       return new ModelAndView(model, layout);
-//     }, new VelocityTemplateEngine());
-//
-//     post("/tasks", (request, response) -> {
-//       Map<String, Object> model = new HashMap<String, Object>();
-//
-//       Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
-//
-//       String description = request.queryParams("description");
-//       Task newTask = new Task(description);
-//
-//       category.addTask(newTask);
-//
-//       model.put("category", category);
-//       model.put("template", "templates/category-tasks-success.vtl");
-//       return new ModelAndView(model, layout);
-//     }, new VelocityTemplateEngine());
+    post("/categories", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");
+      Category newCategory = new Category(name);
+      newCategory.save();
+      model.put("template", "templates/category-success.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/tasks", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+
+      Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
+
+      String description = request.queryParams("description");
+      Task newTask = new Task(description, category.getId());
+      newTast.save();
+      category.addTask(newTask);
+
+      model.put("category", category);
+      model.put("template", "templates/category-tasks-success.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 //
 //   }
 // }

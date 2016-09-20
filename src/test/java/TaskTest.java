@@ -34,7 +34,7 @@ public class TaskTest {
      assertTrue(Task.all().get(0).equals(myTask));
    }
  @Test
-  public void all_returnsAllInstancesOfTask_true() {
+  public void all_returnsAllInstancesOfTask_false() {
     Task firstTask = new Task("Mow the lawn", 1);
     firstTask.save();
     Task secondTask = new Task("Buy groceries", 1);
