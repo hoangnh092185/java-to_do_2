@@ -81,8 +81,7 @@ public class App {
 
       String description = request.queryParams("description");
       Task newTask = new Task(description, category.getId());
-      newTast.save();
-      category.addTask(newTask);
+      newTask.save();
 
       model.put("category", category);
       model.put("template", "templates/category-tasks-success.vtl");
