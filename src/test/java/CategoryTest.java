@@ -1,6 +1,7 @@
 import org.sql2o.*;
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.Arrays;
 
 public class CategoryTest {
   @Before
@@ -45,6 +46,15 @@ public class CategoryTest {
     Category savedCategory = Category.all().get(0);
     assertEquals(myCategory.getId(), savedCategory.getId());
   }
+  @Test
+   public void find_returnsCategoryWithSameId_secondCategory() {
+     Category firstCategory = new Category("Home");
+     firstCategory.save();
+     Category secondCategory = new Category("Work");
+     secondCategory.save();
+     assertEquals(Category.find(secondCategory.getId()), secondCategory);
+   }
+
 }
 
 

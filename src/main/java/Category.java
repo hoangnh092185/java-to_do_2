@@ -42,9 +42,15 @@ public class Category {
        .getKey();//Semicolon includes .addParameter, .executeUpdate and .getKey
    }
  }
- //  public static Category find(int id) {
- // }
- // public List<Task> getTasks() {
- //  }
+  public static Category find(int id) {
+    try(Connection con = DB.sql2o.open()){
+      String sql = "SELECT * FROM categories where id=:id";//using a select query using where id=:id. We use .addParameter("id", id) to pass in the id argument to the sql query
+      Category category = con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetchFirst(Category.class);
+      return category;
+    }
+ }
+
 
 }
